@@ -19,4 +19,4 @@ Tema personalizado de WordPress desarrollado desde cero.
 
 ## Autor
 
-Tu nombre
+Diego
