@@ -15,7 +15,7 @@
 
 <nav>
 <a href="<?php echo home_url(); ?>">Inicio</a>
-<a href="<?php echo home_url('/sobre-mi'); ?>">Sobre</a>
+<a href="<?php echo home_url('/sobre-mi'); ?>">Sobre Mi</a>
 <a href="<?php echo home_url('/contacto'); ?>">Contacto</a>
 </nav>
 
