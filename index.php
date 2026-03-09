@@ -57,9 +57,9 @@ foreach($posts_api as $post){
 
 <div class="api-card">
 
-<h3><?php echo esc_html($post->title); ?></h3>
+<h3><?php echo esc_html($post['title']); ?></h3>
 
-<p><?php echo esc_html($post->body); ?></p>
+<p><?php echo esc_html($post['body']); ?></p>
 
 </div>
 

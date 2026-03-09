@@ -1,30 +1,38 @@
 <?php
 
+function diego_assets(){
 
+wp_enqueue_style(
+'diego-style',
+get_stylesheet_uri()
+);
 
-function diego_cargar_estilos() {
-
-    wp_enqueue_style(
-        'diego-style',
-        get_stylesheet_uri()
-    );
-
-}
-
-add_action('wp_enqueue_scripts', 'diego_cargar_estilos');
-
-function diego_registrar_menu() {
-
-    register_nav_menu(
-        'menu-principal',
-        'Menu Principal'
-    );
+wp_enqueue_script(
+'custom-js',
+get_template_directory_uri() . '/js/script.js',
+array(),
+null,
+true
+);
 
 }
 
-add_action('after_setup_theme', 'diego_registrar_menu');
+add_action('wp_enqueue_scripts', 'diego_assets');
 
-function diego_crear_tabla_contacto() {
+
+function diego_registrar_menu(){
+
+register_nav_menu(
+'menu-principal',
+'Menu Principal'
+);
+
+}
+
+add_action('after_setup_theme','diego_registrar_menu');
+
+
+function diego_crear_tabla_contacto(){
 
 global $wpdb;
 
@@ -46,21 +54,8 @@ dbDelta($sql);
 
 }
 
-diego_crear_tabla_contacto();
+add_action('after_switch_theme','diego_crear_tabla_contacto');
 
-function diego_scripts(){
-
-wp_enqueue_script(
-'custom-js',
-get_template_directory_uri() . '/js/script.js',
-array(),
-null,
-true
-);
-
-}
-
-add_action('wp_enqueue_scripts','diego_scripts');
 
 function obtener_posts_api(){
 
@@ -68,14 +63,41 @@ $response = wp_remote_get(
 'https://jsonplaceholder.typicode.com/posts?_limit=3'
 );
 
-if( is_wp_error($response) ){
+if(is_wp_error($response)){
 return;
 }
 
 $body = wp_remote_retrieve_body($response);
 
-$data = json_decode($body);
+$data = json_decode($body,true);
 
 return $data;
 
 }
+
+function guardar_mensaje_contacto(){
+
+if(isset($_POST['enviar_mensaje'])){
+
+global $wpdb;
+
+$tabla = $wpdb->prefix . 'contact_messages';
+
+$nombre = sanitize_text_field($_POST['nombre']);
+$email = sanitize_email($_POST['email']);
+$mensaje = sanitize_textarea_field($_POST['mensaje']);
+
+$wpdb->insert(
+$tabla,
+array(
+'nombre' => $nombre,
+'email' => $email,
+'mensaje' => $mensaje
+)
+);
+
+}
+
+}
+
+add_action('init','guardar_mensaje_contacto');

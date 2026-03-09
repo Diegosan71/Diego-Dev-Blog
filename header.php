@@ -14,9 +14,13 @@
 <h1 class="logo">Diego Dev Blog</h1>
 
 <nav>
-<a href="<?php echo home_url(); ?>">Inicio</a>
-<a href="<?php echo home_url('/sobre-mi'); ?>">Sobre Mi</a>
-<a href="<?php echo home_url('/contacto'); ?>">Contacto</a>
+
+<?php
+wp_nav_menu(array(
+'theme_location' => 'menu-principal'
+));
+?>
+
 </nav>
 
 </div>
